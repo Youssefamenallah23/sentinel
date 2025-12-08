@@ -1,0 +1,8 @@
+# .gitignore
+__pycache__/
+*.pyc
+venv/
+.env
+.DS_Store
+*.db
+n8n_data/

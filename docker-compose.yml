@@ -1,0 +1,25 @@
+services:
+  # 1. The Brain (FastAPI + Gemini)
+  sentinel-brain:
+    build: ./services/sentinel-brain
+    container_name: sentinel-brain
+    ports:
+      - "8000:8000" # Exposes API to your local machine
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - ./services/sentinel-brain/database:/app/database
+
+  # 2. The Chaos Generator (Buggy App)
+  buggy-app:
+    build: ./services/buggy-app
+    container_name: buggy-app
+    depends_on:
+      - sentinel-brain
+    # This section allows the container to see "localhost" of your computer
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      # We target the host machine's port 5678 where your existing n8n lives
+      - N8N_WEBHOOK_URL=http://host.docker.internal:5678/webhook-test/log-ingest
+      - ERROR_INTERVAL=30 # Crash every 20 seconds
