@@ -14,11 +14,15 @@ Unlike standard chatbots, Sentinel implements an **LLM-Backed Semantic Cache**. 
 ## 📸 Demo & Screenshots
 
 ### 1. The Autonomous Fix Alert
+<img width="1397" height="619" alt="image" src="https://github.com/user-attachments/assets/1998cde1-ffe3-4bfa-aef7-1476c7b212e1" />
+<img width="636" height="781" alt="image" src="https://github.com/user-attachments/assets/23e21ec3-93cb-4777-aa55-8d6c6d7795cc" />
 
 ### 2. The Orchestration Dashboard
+<img width="663" height="407" alt="image" src="https://github.com/user-attachments/assets/a8850ced-df29-4c80-a1d2-d73a14543f13" />
 
 ---
 
 ## 🏗 Architecture
 
 The system follows an **Event-Driven Microservices** pattern, fully containerized and orchestrated by Docker.
+<img width="1070" height="340" alt="image" src="https://github.com/user-attachments/assets/7c71362f-cb4e-4855-9f9d-413a5e4aacb8" />
