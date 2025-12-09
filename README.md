@@ -35,3 +35,23 @@ While v1.0 demonstrates the core autonomous cycle, the following features are pl
 - [ ] **Source Code Context:** The Brain will be upgraded to read the actual source file (e.g., `main.py`) around the line of the crash to provide logic-aware fixes rather than just stack-trace analysis.
 - [ ] **Reinforcement Learning Loop:** Implementation of interactive Slack buttons ("Approvel/Reject"). Rejected fixes will be flagged in the database to prevent the AI from suggesting failed solutions again.
 - [ ] **Vector Database Migration:** For larger codebases, migrating from SQLite to **pgvector** (PostgreSQL) to support semantic search across documentation and internal wikis.
+
+
+---
+
+## 🔄 Alternative Architectures Considered
+
+While Sentinel v1.0 uses a custom Python Microservice ("The Brain") for reasoning, the system can also be architected using a **Low-Code / MCP-Native approach**.
+
+### The "All-in-n8n" Approach (No Python Container)
+Instead of a separate FastAPI container, we could utilize n8n's native **AI Agent Node** with **MCP (Model Context Protocol)** support.
+
+*   **Workflow:** `Webhook` → `n8n AI Agent Node` → `Output`.
+*   **Tooling:** The SQLite database lookup would be defined as a **Custom Tool** (or via an MCP Server) directly within the n8n environment.
+*   **Mechanism:** The n8n AI Agent would autonomously decide when to call the "Check Database" tool versus generating a new fix, removing the need for the explicit `if/else` logic in `main.py`.
+
+### Why we chose the Custom Microservice (FastAPI)
+We opted for the Python/FastAPI architecture for this implementation to demonstrate:
+1.  **Deterministic Control:** In DevOps, we prioritize a strict "Check Cache First" pipeline over the probabilistic behavior of an autonomous agent deciding which tool to use.
+2.  **Engineering & Scalability:** This structure mimics Enterprise patterns where business logic lives in version-controlled code repositories (Git) rather than within low-code workflow configurations.
+3.  **Separation of Concerns:** Decoupling the reasoning engine from the orchestration layer allows the "Brain" to be swapped or scaled independently of n8n.
